@@ -1,11 +1,902 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>我的第一个网站</title>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title style="font-family: Arial, Helvetica, sans-serif;">KungfuAthlete</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+    <link rel="icon" href="./wu.ico">
+
 </head>
+<style>
+.early-stage-note {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-size:18px;
+    font-style: italic;
+    color: #666;
+    letter-spacing: 0.5px;
+}
+
+/* ====== Overall Card ====== */
+.ack-card {
+    display: flex;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* ====== Left Image ====== */
+.ack-image {
+    flex: 0 0 320px;
+    background: #f5f6f8;
+}
+
+.ack-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ====== Right Content ====== */
+.ack-content {
+    padding: 32px 36px;
+    line-height: 1.7;
+    color: #222;
+}
+
+.ack-content h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.ack-content p {
+    margin: 10px 0;
+    font-size: 15.5px;
+}
+
+.ack-thanks {
+    font-weight: 500;
+}
+
+.ack-cn {
+    color: #444;
+    font-size: 15px;
+}
+
+/* ====== Divider ====== */
+.ack-content hr {
+    margin: 18px 0;
+    border: none;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* ====== Link ====== */
+.ack-link {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 15px;
+    color: #0056d2;
+    text-decoration: none;
+}
+
+.ack-link:hover {
+    text-decoration: underline;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+    .ack-card {
+        flex-direction: column;
+    }
+
+    .ack-image {
+        width: 100%;
+        height: 260px;
+    }
+}
+
+.video-section {
+    margin-bottom: 40px;
+}
+
+.video-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0 15px;
+    text-align: center;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 改为3列 */
+    gap: 16px;
+
+    width: 60%;          /* 可以适当加宽一点，让3列不显得挤 */
+    margin: 0 auto;      /* 整个 grid 居中 */
+}
+
+/* 每个 video 填满各自列 */
+.video-grid video {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+
+.link-bar {
+  display: flex;
+  justify-content: center;   /* 关键 */
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  background-color: #2f2f2f;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.pill:hover {
+  background-color: #444;
+  transform: translateY(-1px);
+}
+
+.icon {
+  font-size: 16px;
+  line-height: 1;
+}
+/* 基本容器样式 */
+.dataset-overview {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 标题样式 */
+.dataset-overview h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 5px;
+  color: #007acc;
+}
+
+.dataset-overview h3 {
+  font-size: 22px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #005f99;
+}
+
+.dataset-overview h4 {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #004466;
+}
+
+/* 表格样式 */
+.dataset-overview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.dataset-overview table th,
+.dataset-overview table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.dataset-overview table th {
+  background-color: #f0f8ff;
+  color: #007acc;
+}
+
+.dataset-overview table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 列表样式 */
+.dataset-overview ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.dataset-overview ul.notes li {
+  margin-bottom: 8px;
+}
+
+/* 子集对比样式 */
+.dataset-overview .subsets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.dataset-overview .subset {
+  flex: 1 1 45%;
+  background-color: #f7f9fc;
+  padding: 15px 20px;
+  border-left: 5px solid #007acc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Jump subset 高亮 */
+.dataset-overview .subset.jump {
+  border-left-color: #e67300;
+}
+
+/* Key observations 样式 */
+.dataset-overview .observations {
+  margin-top: 20px;
+  background-color: #fff8e1;
+  padding: 15px 20px;
+  border-left: 5px solid #e67300;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* 响应式处理 */
+@media (max-width: 768px) {
+  .dataset-overview .subsets {
+    flex-direction: column;
+  }
+}
+
+/* 基本容器 */
+.dataset-overview {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 标题 */
+.dataset-overview h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 5px;
+  color: #007acc;
+  text-align: center;
+}
+
+/* 段落 */
+.dataset-overview p {
+  font-size: 18px;
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+/* 响应式处理 */
+@media (max-width: 768px) {
+  .dataset-overview p {
+    font-size: 16px;
+  }
+}
+
+.coming-soon-box {
+    margin: 80px auto 60px auto;
+    padding: 18px 36px;
+
+    width: fit-content;
+    max-width: 90%;
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+
+    color: #333;
+    background: #f5f5f5;
+
+    border: 2px dashed #bbb;
+    border-radius: 999px; /* 药丸形 / 圆框 */
+
+    letter-spacing: 0.3px;
+}
+
+/* 整个页面的“地基” */
+.bibtex-foundation {
+    width: 100%;
+    margin-top: 120px;
+    padding: 60px 0;
+
+    background: #f4f5f6;          /* 比正文浅一层 */
+    border-top: 1.5px solid #ddd; /* 像地面分界线 */
+}
+
+/* 内部内容宽，但不贴边 */
+.bibtex-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* 说明文字：稳 */
+.bibtex-text {
+    text-align: center;
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 22px;
+}
+
+/* BibTeX 本体：横向展开 */
+.bibtex-code {
+    position: relative;
+    padding: 22px 26px;
+
+    background: #ffffff;
+    border: 1.2px solid #ccc;
+    border-radius: 8px;
+
+    font-family: "Courier New", monospace;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.bibtex-code pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* 复制按钮：像工具，不是装饰 */
+.copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+
+    font-size: 12px;
+    padding: 5px 12px;
+
+    background: #f0f0f0;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background: #e6e6e6;
+}
+
+
+
+</style>
+
+
+
 <body>
-    <h1>Hello GitHub Pages!</h1>
-    <p>这是我用 github.io 创建的第一个网站。</p>
+    <div id="main">
+        <h2 class="col-md-12 text-center" style="font-size: 56px; font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.2;">
+            <span style="font-size: 40px; color: #9C2018;">A Kung Fu Athlete Bot That Can Do It All Day : </span><br>
+            <span style="font-size: 36px; font-weight: bold; color: #000000;">
+                Highly Dynamic, Balance-Challenging Martial Arts Motion Dataset and <br>
+ Autonomous Fall-Resilient Tracking
+            </span>
+        </h2>
+ <br>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <ul class="list-inline">
+
+            <!-- 作者列表 -->
+            <li>
+                <a style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Zhongxiang Lei
+                </a>
+                <sup style="font-size: 20px;">1</sup>
+            </li>
+
+            <li>
+                <a style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Lulu Cao
+                </a>
+                <sup style="font-size: 20px;">1,2</sup>
+            </li>
+
+            <li>
+                <a style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Xuyang Wang
+                </a>
+                <sup style="font-size: 20px;">1,2</sup>
+            </li>
+            <li>
+                <a href="#" style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Tianyi Qian
+                </a>
+                <sup style="font-size: 20px;">1,3†</sup>
+            </li>
+
+            <li>
+                <a href="#" style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Jinyan Liu
+                </a>
+                <sup style="font-size: 20px;">1†</sup>
+            </li>
+
+            <li>
+                <a href="#" style="font-size: 26px;" target="_blank" rel="noopener noreferrer">
+                    Xuesong Li
+                </a>
+                <sup style="font-size: 20px;">1†</sup>
+            </li>
+
+            <br>
+
+            <!-- 单位与说明 -->
+            <li>
+                <sup style="font-size: 20px;">1</sup>
+                <font size="5">Beijing Institute of Technology</font>
+            </li>
+
+            <li>
+                <sup style="font-size: 20px;">2</sup>
+                <font size="5">Equal contribution</font>
+            </li>
+
+            <li>
+                <sup style="font-size: 20px;">4</sup>
+                <font size="5">QIYUAN Lab</font>
+            </li>
+
+            <li>
+                <sup style="font-size: 20px;">†</sup>
+                <font size="5">Corresponding authors</font>
+            </li>
+
+            <br><br>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="row" style="margin-top: 30px;">
+    <div class="col-md-8 col-md-offset-2 text-center">
+        <ul class="nav nav-pills nav-justified">
+            <li>
+                <a target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.bit.edu.cn/images/gb20190805/logo_01.svg" height="85px" alt="Icon 1">
+                </a>
+            </li>
+            <li>
+                <a   target="_blank" rel="noopener noreferrer">
+                    <img src="img/wu.jpg" height="85px" alt="Icon 1">
+                </a>
+            </li>
+            <li>
+                <a  target="_blank" rel="noopener noreferrer">
+                    <img src="https://bkimg.cdn.bcebos.com/pic/f9198618367adab44aed31aa5d8da41c8701a08b4e9a?x-bce-process=image/format,f_auto/quality,Q_70/resize,m_lfit,limit_1,w_536" height="85px" alt="Icon 2">
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+<div class="link-bar">
+  <a class="pill" href="https://arxiv.org/abs/2602.13656" target="_blank">
+    <span class="icon">
+      <img src="img/arxiv-logo.png" alt="arXiv" width="20" height="20">
+    </span>
+    <span>arXiv</span>
+  </a>
+  <a class="pill" href="https://example.com/video" target="_blank">
+    <span class="icon">
+      <img src="img/youtube_icon.png" alt="Video" width="20" height="20">
+    </span>
+    <span>Youtube (coming soon)</span>
+  </a>
+  <a class="pill" href="https://www.bilibili.com/" target="_blank">
+    <span class="icon">
+      <img src="img/bilibili.jpeg" alt="Bilibili" width="20" height="20">
+    </span>
+    <span>Bilibili (coming soon)</span>
+  </a>
+  <a class="pill" href="https://github.com/NPCLEI/KungFuAathleteBot" target="_blank">
+    <span class="icon">
+      <img src="img/database_icon.png" alt="Datasets" width="20" height="20">
+    </span>
+    <span>Datasets</span>
+  </a>
+</div>
+
+
+
+  <br>
+
+  <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+          <div class="text-center">
+              <div style="position:relative;padding-top:56.25%;">
+                  <iframe src="https://www.youtube.com/embed/NPMUlf9soL0?si=wQxkT4AUNXLap2RH" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      </div>
+              </div>
+          </div>
+      </div> <br>
+  </div>
+
+    <div class="dataset-overview">
+
+    <!-- Abstract -->
+    <section class="abstract">
+        <h2>Abstract</h2>
+        <p>
+          Currently, motion tracking technology for humanoid robots can effectively execute routine actions and high-dynamic behaviors. However, significant research gaps remain at the boundaries of hardware performance limits and motion algorithm robustness, awaiting further exploration. Martial arts, as a quintessential example of humanity continually pushing the boundaries of its physical capabilities, exhibit movements characterized by high intensity, extreme complexity, and rapid changes. Yet, specialized datasets tailored for such highly dynamic motion scenarios remain scarce.
+          To address this gap, this paper constructs a high-dynamic martial arts motion dataset from video footage of professional martial artists, focusing on representative complex motion patterns involving frequent center-of-gravity shifts and rapid postural changes. It is important to note that even experienced professional athletes may make mistakes when executing highly dynamic movements. Similarly, robots are highly susceptible to losing balance or falling when encountering unknown external disturbances or execution errors. However, most existing research assumes that the motion execution process remains in a safe state at all times. There is a lack of a unified strategy that can model unsafe states during motion tracking and achieve timely, reliable autonomous recovery when falls or instability occur.
+          This paper proposes a novel model training paradigm enabling robots not only to learn high-dynamic motion tracking under unsafe conditions and external disturbances but also to actively recover from unstable states. This approach expands robotic capabilities from “mere motion tracking” to “recovery-enabled motion execution,” advancing humanoid robots' application in real-world performance scenarios. It enables robots to transition beyond laboratory environments, freeing them from gantry support and human intervention to achieve more autonomous, robust high-dynamic motion performance.
+        </p>
+    </section>
+
+    </div>
+
+
+
+<div style="display:flex; max-width:800px; background-color:#f5f5f5; border-radius:6px; font-family:Arial, sans-serif; font-size:14px; line-height:1.4; margin:16px auto; overflow:hidden;">
+  <div style="width:6px; background-color:#555;"></div>
+  <div style="padding:10px;">
+    <div style="font-weight:bold; margin-bottom:6px;">
+      Project Status: Active Development with Ready Ground Subset
+    </div>
+    <div style="margin-bottom:4px;">
+      Model training is currently under active development.
+    </div>
+    <div style="margin-bottom:4px;">
+      <strong>Ground subset:</strong> largely complete and ready for training.
+    </div>
+    <div style="margin-bottom:4px;">
+      <strong>Jump subset:</strong> still has minor imperfections due to video source limitations. Most samples have been carefully screened, though training performance may vary.
+    </div>
+    <div style="margin-top:6px; font-style:italic; color:#333;">
+      Please try out the dataset first 😺
+    </div>
+  </div>
+</div>
+
+<div class="dataset-overview">
+
+  <!-- Dataset Overview -->
+  <section class="overview">
+    <h2>Dataset Overview</h2>
+    <p>
+      The dataset originates from athletes’ <strong>daily martial arts training videos</strong>, totaling <strong>197 video clips</strong>.
+      Each clip may consist of multiple merged segments. We apply <strong>automatic temporal segmentation</strong>, resulting in <strong>1,726 sub-clips</strong>,
+      ensuring that most segments avoid abrupt transitions that could introduce excessive motion discontinuities.
+    </p>
+    <p>
+      All sub-clips are processed using <strong>GVHMR</strong> for motion capture, followed by <strong>GMR-based reorientation</strong>.
+      After filtering and post-processing, the final dataset contains <strong>848 motion samples</strong>, primarily reflecting routine training activities.
+    </p>
+  </section>
+
+  <!-- Category Distribution -->
+  <section class="category-distribution">
+    <h2>Category Distribution</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Count</th>
+          <th>Example Subcategories</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Daily Training</td>
+          <td>715</td>
+          <td>–</td>
+        </tr>
+        <tr>
+          <td>Fist</td>
+          <td>53</td>
+          <td>Long Fist (33), Tai Chi Fist (14), Southern Fist (6)</td>
+        </tr>
+        <tr>
+          <td>Staff</td>
+          <td>30</td>
+          <td>Staff Technique (30)</td>
+        </tr>
+        <tr>
+          <td>Skills</td>
+          <td>28</td>
+          <td>Backflip (12), Lotus Swing (9)</td>
+        </tr>
+        <tr>
+          <td>Saber / Sword</td>
+          <td>15 / 7</td>
+          <td>Southern Saber (15), Tai Chi Sword (7)</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul class="notes">
+      <li><strong>Daily Training</strong> dominates the dataset (~84%), representing standard practice routines.</li>
+      <li><strong>Boxing techniques</strong> form the largest specialized category, with <strong>Changquan (Long Fist)</strong> most prevalent.</li>
+      <li><strong>Skill-based movements</strong> focus on high-difficulty acrobatics like somersaults and lotus swings.</li>
+      <li>Weapon-based motions are limited but structured, focusing on staff, saber, and Tai Chi sword forms.</li>
+    </ul>
+  </section>
+
+  <!-- Motion Statistics Comparison -->
+  <section class="motion-stats">
+    <h2>Motion Statistics Comparison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>FPS</th>
+          <th>Joint Vel.</th>
+          <th>Body Lin. Vel.</th>
+          <th>Body Ang. Vel.</th>
+          <th>Average Frames</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LAFAN1</td>
+          <td>50.0</td>
+          <td>0.00142</td>
+          <td>0.00021</td>
+          <td>0.01147</td>
+          <td>10749.23</td>
+        </tr>
+        <tr>
+          <td>PHUMA</td>
+          <td>50.0</td>
+          <td>0.00120</td>
+          <td>0.00440</td>
+          <td>-0.00131</td>
+          <td>169.59</td>
+        </tr>
+        <tr>
+          <td>AMASS</td>
+          <td>30.0</td>
+          <td>0.00048</td>
+          <td>-0.00568</td>
+          <td>0.00903</td>
+          <td>370.65</td>
+        </tr>
+        <tr>
+          <td><strong>KungFuAthlete (Ground)</strong></td>
+          <td>50.0</td>
+          <td>-0.00199</td>
+          <td>0.01057</td>
+          <td>0.04034</td>
+          <td>577.68</td>
+        </tr>
+        <tr>
+          <td><strong>KungFuAthlete (Jump)</strong></td>
+          <td>50.0</td>
+          <td>0.02384</td>
+          <td>0.05297</td>
+          <td>0.18017</td>
+          <td>397.21</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Ground vs. Jump Subsets -->
+  <section class="subsets">
+    <h2>Ground vs. Jump Subsets</h2>
+    <div class="subset ground">
+      <h3>KungFuAthlete (Ground)</h3>
+      <p>Contains non-jumping actions, emphasizing:</p>
+      <ul>
+        <li>Continuous ground-based power generation</li>
+        <li>Rapid body rotations</li>
+        <li>Weapon manipulation and stance transitions</li>
+      </ul>
+    </div>
+
+    <div class="subset jump">
+      <h3>KungFuAthlete (Jump)</h3>
+      <p>Includes high-dynamic aerial motions such as:</p>
+      <ul>
+        <li>Somersaults</li>
+        <li>Cartwheels</li>
+        <li>Other acrobatic jumps</li>
+      </ul>
+    </div>
+
+    <div class="observations">
+      <h4>Key Observations</h4>
+      <ul>
+        <li>The <strong>Jump subset</strong> exhibits the highest joint velocity, body linear velocity, and angular velocity among all compared datasets.</li>
+        <li>The <strong>Ground subset</strong> still shows significantly higher dynamics than natural motion datasets (LAFAN1, AMASS).</li>
+        <li>Compared to PHUMA and AMASS, <strong>KungFuAthlete</strong> demonstrates stronger non-stationarity, larger motion amplitudes, and more challenging transient dynamics, even at comparable or higher frame rates.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+
+
+<div id="video-container"></div>
+
+<script>
+const videoFolders = {
+    "rc": Array.from({ length: 6 }, (_, i) => `r${i+1}_compressed.mp4`),
+    "sr": Array.from({ length: 6 }, (_, i) => `sr${i+1}_compressed.mp4`),
+    "s":  Array.from({ length: 9 }, (_, i) => `s${i+1}_compressed.mp4`),
+};
+
+const folderTitleMap = {
+    "rc": "Recovery in a lying position",
+    "sr": "Motion Tracking with Autonomous Fall-Resilient Tracking (Mujoco)",
+    "s":  "Standard Motions (Mujoco)"
+};
+
+const root = "img/videos/";
+const container = document.getElementById("video-container");
+
+for (const [folder, videos] of Object.entries(videoFolders)) {
+
+    const section = document.createElement("div");
+    section.className = "video-section";
+
+    const title = document.createElement("div");
+    title.className = "video-title";
+    title.textContent = folderTitleMap[folder] ?? folder;
+    section.appendChild(title);
+
+    const grid = document.createElement("div");
+    grid.className = "video-grid";   // ★ 关键缺失点
+
+    videos.forEach(v => {
+        const video = document.createElement("video");
+        video.src = `${root}${folder}/${v}`;
+        video.controls = true;
+        video.playsInline = true;
+        grid.appendChild(video);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+}
+</script>
+
+<div class="coming-soon-box">
+    🚀 More high-dynamic-range actions and open-source models coming soon ...
+</div>
+
+
+<!-- ====== Acknowledgement Card ====== -->
+<div class="ack-card">
+    <div class="ack-image">
+        <img src="img/xyh.jpg" alt="Xie Yuanhang">
+    </div>
+
+    <div class="ack-content">
+        <h2>Acknowledgement</h2>
+
+        <p>
+            The video materials used in this project are primarily sourced from a series of
+            publicly released martial arts training and competition demonstration videos by
+            <strong>Xie Yuanhang</strong>.
+        </p>
+
+        <p>
+            <strong>Xie Yuanhang</strong> is an athlete of the <strong>Guangxi Wushu Team</strong>,
+            a <strong>National-Level Elite Athlete of China</strong>, and holds the rank of
+            <strong>Chinese Wushu 6th Duan</strong>. He achieved
+            <strong>third place in the Wushu Taolu event at the 10th National Games of the
+            People’s Republic of China</strong>.
+        </p>
+
+        <p>
+            His demonstrations cover Changquan, Nanquan, weapon routines, and Taijiquan
+            (including Taijijian), and are of high professional and instructional value.
+        </p>
+
+        <p class="ack-thanks">
+            We sincerely thank <strong>Xie Yuanhang</strong> for granting permission to use
+            his publicly available videos for <em>research and academic purposes only</em>.
+        </p>
+
+        <hr>
+
+        <p class="ack-cn">
+            本项目所使用的视频素材主要来源于谢远航教练/运动员在其个人平台公开发布的武术训练与竞赛示范视频。
+            谢远航系广西武术队运动员，国家级运动健将，中国武术六段，曾获中华人民共和国第十届运动会
+            武术套路项目第三名。
+        </p>
+
+        <p class="ack-cn">
+            在此特别感谢谢远航先生对本项目的授权与支持，允许基于其公开视频素材进行整理、处理与科研使用。
+        </p>
+
+        <a class="ack-link"
+           href="https://space.bilibili.com/1475395086"
+           target="_blank" rel="noopener noreferrer">
+            🔗 Bilibili Personal Homepage
+        </a>
+    </div>
+</div>
+
+
+<div class="bibtex-foundation">
+    <div class="bibtex-inner">
+        <div class="bibtex-text">
+            If you find our dataset useful or use it in your research, please cite:
+        </div>
+
+        <div class="bibtex-code">
+            <button class="copy-btn" onclick="copyBibtex()">Copy BibTeX</button>
+<pre id="bibtex-content">@article{KungFuAthlete2026,
+  title   = {KungFuAthlete: Exploring the Upper Limits of Humanoid Motion},
+  author  = {Lei, Zhongxiang and Others},
+  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  year    = {2026}
+}</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyBibtex() {
+    const text = document.getElementById("bibtex-content").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector(".copy-btn");
+        btn.innerText = "Copied";
+        setTimeout(() => btn.innerText = "Copy BibTeX", 1200);
+    });
+}
+</script>
+
+
 </body>
 </html>
